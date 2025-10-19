@@ -1,0 +1,22 @@
+{
+  "name": "Full Stack DevContainer with Compose",
+  "dockerComposeFile": [
+    "../docker-compose.yml"
+  ],
+  "service": "backend",
+  "workspaceFolder": "/workspace",
+  "forwardPorts": [4200, 5000, 5001, 5432],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-dotnettools.csharp",
+        "angular.ng-template",
+        "esbenp.prettier-vscode",
+        "GraphQL.vscode-graphql",
+        "dbaeumer.vscode-eslint"
+      ]
+    }
+  },
+  "postCreateCommand": "dotnet restore && npm install --prefix ../frontend",
+  "remoteUser": "vscode"
+}
