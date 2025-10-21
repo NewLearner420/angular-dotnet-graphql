@@ -1,0 +1,20 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.log
+
+# Angular
+HelloWorldAngular/node_modules/
+HelloWorldAngular/dist/
+HelloWorldAngular/.angular/
+
+# IDEs
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
