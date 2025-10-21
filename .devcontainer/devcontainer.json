@@ -1,8 +1,6 @@
 {
-  "name": "Angular + .NET + PostgreSQL",
-  "dockerComposeFile": "docker-compose.yml",
-  "service": "app",
-  "workspaceFolder": "/workspace",
+  "name": "Angular .NET PostgreSQL Dev",
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
   
   "features": {
     "ghcr.io/devcontainers/features/node:1": {
@@ -11,7 +9,7 @@
     "ghcr.io/devcontainers/features/dotnet:2": {
       "version": "8.0"
     },
-    "ghcr.io/devcontainers/features/git:1": {}
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
   },
 
   "customizations": {
@@ -19,34 +17,15 @@
       "extensions": [
         "angular.ng-template",
         "ms-dotnettools.csharp",
-        "ms-dotnettools.csdevkit",
         "ms-azuretools.vscode-docker",
-        "ckolkman.vscode-postgres",
-        "esbenp.prettier-vscode"
-      ],
-      "settings": {
-        "terminal.integrated.defaultProfile.linux": "bash"
-      }
+        "ckolkman.vscode-postgres"
+      ]
     }
   },
 
   "forwardPorts": [4200, 5000, 5432],
-  "portsAttributes": {
-    "4200": {
-      "label": "Angular",
-      "onAutoForward": "notify"
-    },
-    "5000": {
-      "label": ".NET API",
-      "onAutoForward": "notify"
-    },
-    "5432": {
-      "label": "PostgreSQL",
-      "onAutoForward": "silent"
-    }
-  },
 
-  "postCreateCommand": "npm install && dotnet restore",
+  "postCreateCommand": "npm install -g @angular/cli@19 && docker run -d --name postgres-dev -e POSTGRES_USER=devuser -e POSTGRES_PASSWORD=devpass123 -e POSTGRES_DB=helloworld_db -p 5432:5432 postgres:16",
   
-  "remoteUser": "vscode"
+  "remoteUser": "codespace"
 }
