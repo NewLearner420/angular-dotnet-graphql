@@ -16,7 +16,7 @@ export const appConfig: ApplicationConfig = {
       const httpLink = inject(HttpLink);
       return {
         link: httpLink.create({
-          uri: 'https://scaling-xylophone-r45pxxrxp44r2xqpx-5220.app.github.dev/graphql',
+          uri: 'https://scaling-xylophone-r45pxxrxp44r2xqpx-5000.app.github.dev/graphql',
         }),
         cache: new InMemoryCache(),
       };
