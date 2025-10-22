@@ -4,6 +4,12 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// IMPORTANT: Configure Kestrel to bind to 0.0.0.0 for Codespaces
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.ListenAnyIP(5000); // Binds to 0.0.0.0:5000
+});
+
 // Add services to the container.
 builder.Services.AddControllers();
 
@@ -20,16 +26,13 @@ builder.Services
     .AddFiltering()
     .AddSorting();
 
-// Add CORS for Angular app
+// Add CORS - Allow all origins for development (more permissive)
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAngular",
-        policy => policy.WithOrigins(
-                       "http://localhost:4200",
-                       "https://scaling-xylophone-r45pxxrxp44r2xqpx-4200.app.github.dev")
+    options.AddPolicy("AllowAll",
+        policy => policy.AllowAnyOrigin()
                        .AllowAnyHeader()
-                       .AllowAnyMethod()
-                       .AllowCredentials());
+                       .AllowAnyMethod());
 });
 
 // Add services to the container.
@@ -46,12 +49,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// Use CORS before other middleware
+app.UseCors("AllowAll");
 
-app.UseCors("AllowAngular");
+// Don't use HTTPS redirection in Codespaces (causes issues)
+// app.UseHttpsRedirection();
+
 app.UseAuthorization();
 
 app.MapControllers();
 app.MapGraphQL();
-
 
 app.Run();
